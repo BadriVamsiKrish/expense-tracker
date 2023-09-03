@@ -1,10 +1,10 @@
 import { useState, useRef ,useContext} from 'react';
 //import AuthContext from '../../store/Auth-context';
-//import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
-  //const history=useHistory();
+  const history=useNavigate();
   const emailInputRef=useRef();
 
   const passwordInputRef= useRef();
@@ -23,7 +23,7 @@ const AuthForm = () => {
 
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
-    const  enteredUsername=usernameInputRef.current.value;
+    //const  enteredUsername=usernameInputRef.current.value;
 
     if(isLogin){
       var url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g';
@@ -53,7 +53,7 @@ const AuthForm = () => {
           })
         }
        
-  }).then(data=>{console.log(data)})
+  }).then(data=>{console.log(data);history('/home')})
   .catch(err=>{
     alert(err.message);
   });
