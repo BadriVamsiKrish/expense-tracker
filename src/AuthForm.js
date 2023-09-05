@@ -1,15 +1,15 @@
-import { useState, useRef ,useContext} from 'react';
+import { useState, useRef, useContext} from 'react';
 //import AuthContext from '../../store/Auth-context';
 import { useNavigate } from 'react-router-dom';
 import classes from './AuthForm.module.css';
-
+import { store } from './App';
 const AuthForm = () => {
   const history=useNavigate();
   const emailInputRef=useRef();
 
   const passwordInputRef= useRef();
-
-  const usernameInputRef=useRef();
+  const[logindata,setlogindata]=useContext(store);
+  //const usernameInputRef=useRef();
 
   //const authCtx=useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
@@ -23,15 +23,15 @@ const AuthForm = () => {
 
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
-    //const  enteredUsername=usernameInputRef.current.value;
+    //const  enteredUsername=isLogin? '' :usernameInputRef.current.value;
 
     if(isLogin){
       var url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g';
 
     }else{
       var url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g';
-    
-    }
+
+    };
     fetch(url,{
         method:'POST',
         body:JSON.stringify({
@@ -52,8 +52,8 @@ const AuthForm = () => {
             throw new Error(errorMessage);
           })
         }
-       
-  }).then(data=>{console.log(data);history('/home')})
+
+  }).then(data=>{console.log(data);setlogindata(data.idToken);localStorage.setItem('token',data.idToken);console.log(logindata);history('/home')})
   .catch(err=>{
     alert(err.message);
   });
@@ -63,10 +63,6 @@ const AuthForm = () => {
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
       <form onSubmit={submitHandler} >
-      {!(isLogin) && <div className={classes.control}>
-          <label htmlFor='text'>Username</label>
-          <input type='text' id='username' required ref={usernameInputRef} />
-        </div>}
         <div className={classes.control}>
           <label htmlFor='email'>Your Email</label>
           <input type='email' id='email' required ref={emailInputRef} />
@@ -94,4 +90,4 @@ const AuthForm = () => {
     </section>
   );
 };
-export default AuthForm;
+ export default AuthForm;
