@@ -10,7 +10,7 @@ const Home = () => {
   const nameref=useRef();
   const photoref=useRef();
   useEffect(()=>{var url = 'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g'; // Replace with your actual API key.
-  
+  console.log(logindata);
   fetch(url, {
     method: 'POST',
     body: JSON.stringify({

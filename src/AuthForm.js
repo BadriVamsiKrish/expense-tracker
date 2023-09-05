@@ -36,8 +36,8 @@ const AuthForm = () => {
         method:'POST',
         body:JSON.stringify({
           email:enteredEmail,
-          password:enteredPassword,
-          returnSecuretocken:true,
+      password:enteredPassword,
+      returnSecuretocken:true,
         }),
         headers:{
           'Content-Type': 'application/json'
@@ -53,12 +53,11 @@ const AuthForm = () => {
           })
         }
 
-  }).then(data=>{console.log(data);setlogindata(data.idToken);localStorage.setItem('token',data.idToken);console.log(logindata);history('/home')})
+  }).then(data=>{console.log(data);setlogindata(data.idToken);localStorage.setItem('token',data.idToken);history('/emailverify')})
   .catch(err=>{
     alert(err.message);
   });
 };
-
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
