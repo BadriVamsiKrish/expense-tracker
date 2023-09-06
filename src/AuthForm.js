@@ -35,6 +35,7 @@ const AuthForm = () => {
     fetch(url,{
         method:'POST',
         body:JSON.stringify({
+          requestType:"PASSWORD_RESET",
           email:enteredEmail,
       password:enteredPassword,
       returnSecuretocken:true,
@@ -58,6 +59,36 @@ const AuthForm = () => {
     alert(err.message);
   });
 };
+const forgotpasswordhandler = () =>{
+  const enteredEmail=emailInputRef.current.value;
+
+  var url='https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g';
+  fetch(url,{
+      method:'POST',
+      body:JSON.stringify({
+        requestType:"PASSWORD_RESET",
+        email:enteredEmail,
+      }),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then((res)=>{
+      if(res.ok){
+        return res.json();
+      }
+      else{
+        return res.json().then((data)=>{
+          let errorMessage='Authentication is failed';
+          throw new Error(errorMessage);
+        })
+      }
+
+  }).then(data=>{console.log(data);})
+  .catch(err=>{
+    alert(err.message);
+  });
+
+} 
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
@@ -83,6 +114,13 @@ const AuthForm = () => {
             onClick={switchAuthModeHandler}
           >
             {isLogin ? 'Create new account' : 'Login with existing account'}
+          </button>
+          <button
+            type='button'
+            className={classes.toggle}
+            onClick={(event)=>{console.log(emailInputRef.current.value,'working');forgotpasswordhandler();}}
+          >
+            forgot password
           </button>
         </div>
       </form>
