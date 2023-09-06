@@ -39,6 +39,26 @@ const Expenceform = () => {
     setDatalist([...datalist]);
     console.log(datalist);
   } 
+  const edithandler = (id,a,b,c) =>{
+    console.log(id,a,b,c);
+    const amount=window.prompt('eneter amount',a);
+    const des=window.prompt('enter description',b);
+    const cat=window.prompt('enter category',c);
+    axios.put(`https://react-http-f171e-default-rtdb.firebaseio.com/expence_cart/${id}.json`,{'money':amount,'description':des,'category':cat})
+    .then(()=>{alert('data is updated')})
+    .catch((er)=>{alert('error arised')});
+    
+  } 
+  const deletehandler = (id) =>{
+    console.log(id);
+    axios.delete(`https://react-http-f171e-default-rtdb.firebaseio.com/expence_cart/${id}.json`)
+      .then(() => {
+        alert('data deleted');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
   return (
     <div>
       <form style={{border:'5px outset black',padding:'20px',fontSize:'20px'}}>
@@ -48,10 +68,11 @@ const Expenceform = () => {
         <Button style={{alignSelf:'flex-end'}} onClick={(event)=>addhandler()}>Add</Button>
         <h2>Items</h2>
         <ol>{Object.keys(data).map((key) => (
-          <li key={key}>
+          <li key={key} style={{border:'5px outset blue',fontSize:'10px',backgroundColor:'aquamarine'}}>
           <p>Category: {data[key].category}</p>
           <p>Description: {data[key].description}</p>
           <p>Money: {data[key].money}</p>
+          <p><Button onClick={(event)=>edithandler(key,data[key].money,data[key].description,data[key].category)}>edit</Button><Button onClick={(event)=>deletehandler(key)}>delete</Button></p>
         </li>
       ))}</ol>
       </form>
