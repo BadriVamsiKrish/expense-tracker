@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useState ,useContext,useRef } from 'react';
 import { Button } from 'react-bootstrap';
 import { store } from '../App';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+  const history=useNavigate();
   const[updateprofile,setUpdateprofile]=useState(false);
   const[name,setName]=useState('');
   const[photourl,setPhotourl]=useState('');
@@ -75,6 +77,10 @@ const Home = () => {
         alert(err.message);
       });
   };
+  const logouthandler = () =>{
+    localStorage.removeItem('token');
+    history('/');
+  } 
   
   return (
     <div style={{margin:'50px'}}>
@@ -82,6 +88,7 @@ const Home = () => {
       {updateprofile && <div style={{backgroundColor:'aqua',padding:'30px',border:'10px grove gray',fontSize:'20px'}}>username:<input onChange={(event)=>setName(event.target.value)}type='text' ref={nameref} value={name}/><br/>
       photoUrl:<input type='text' onChange={(event)=>setPhotourl(event.target.value)} ref={photoref} value={photourl}/><br/><Button onClick={(event)=>{setUpdateprofile(!(updateprofile));console.log(logindata);submitHandler();}}>Update</Button></div>}
       <h1>Welcome to expence tracker...</h1>
+      <Button variant='danger' style={{padding:'10px',backgroundColor:'red',color:'white',fontSize:'10px'}} onClick={(event)=>logouthandler()} >logout</Button>
     </div>
   )
 }

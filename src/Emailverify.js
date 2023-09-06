@@ -39,7 +39,9 @@ const Emailverify = () => {
     });
 },[check])
   const verify = () => {
-    setTimeout(setCheck(!(check)),30000);
+    setTimeout(() => {setCheck(!(check))
+      
+    }, 30000);
     fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g',{
       method:'POST',
       body:JSON.stringify({

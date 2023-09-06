@@ -13,9 +13,10 @@ const App = () => {
       <BrowserRouter>
         <store.Provider value={[logindata,setlogindata]}>
           <Routes>
-            <Route path={'/home'} element={<Home/>} />
+            {logindata && <Route path={'/home'} element={<Home/>} />}
             <Route path={'/'} element={<AuthForm/>} />
-            <Route path={'/emailverify'} element={<Emailverify/>}/>
+            {logindata &&<Route path={'/emailverify'} element={<Emailverify/>}/>}
+            <Route path={'*'} element={<AuthForm/>}/>
           </Routes>
         </store.Provider>
       </BrowserRouter>
