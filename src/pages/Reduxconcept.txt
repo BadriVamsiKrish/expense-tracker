@@ -1,0 +1,27 @@
+1.there are 3 types of states.1)local state 2)cross component state 3)app wide state.
+
+2.local state were state values affect local component.ex.input data collect.
+
+ cross state were values affect by some components.
+
+app wide state were state values affect by whole app components.
+
+
+
+3.props drilling is obtain values from heirarchy .
+
+
+
+1.complex setup and performance
+
+
+
+2.if app is small or medium with less component updates
+
+
+
+1.ok
+
+2.global state object that hold all data of your application.
+
+3. it means that the component is connected to the global state managed by the state management library, and it listens for changes to specific parts of that global state.
