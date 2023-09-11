@@ -195,7 +195,9 @@ const ExpenseForm = () => {
         <h2>Expense Form</h2>
       </div>
       <div>
-        {totalPrice>10000 && <Button variant='warning'>Get premium</Button>}
+        {totalPrice>10000 &&<div style={{backgroundColor:'aquamarine',padding:'1cm'}}>
+        <Button variant='warning'>Get premium</Button>
+        </div>}
       </div>
       <div>
         <label>Amount:</label>
