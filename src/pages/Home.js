@@ -96,18 +96,22 @@
 // }
 
 // export default Home;
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector ,useDispatch } from 'react-redux';
 import { authActions } from '../store/authstore';
 import axios from 'axios';
 import Expenceform from './Expenceform';
+import { expenseActions } from '../store/expences';
+import { Icon } from 'react-icons-kit';
+import {brightnessContrast} from 'react-icons-kit/icomoon/brightnessContrast'
 //import Expenceform from './Expenceform';
 const Home = () => {
   const nameref=useRef();
   const photoref=useRef();
   const showupdateform=useSelector(state=>state.auth.showupdateform);
   const id=useSelector(state=>state.auth.authId);
+  const bgcolor=useSelector(state=>state.expense.bgcolor);
   const dispatch=useDispatch();
   const setShowupdateform = () =>{
     dispatch(authActions.setshowupdateform());
@@ -122,10 +126,17 @@ const Home = () => {
     nameref.current.value='';
     photoref.current.value='';
 
+  } ;
+  const settheme = () =>{
+    dispatch(expenseActions.setbgcolor());
   } 
+  //const [bgcolor,setBgcolor]=useState('white');
   return (
     <div>
+      <Button variant='secondary' onClick={settheme}><Icon icon={brightnessContrast}/></Button>
+      <div style={{backgroundColor:bgcolor?'white':'gray'}}>
       <div>
+
         <h1>welcome to expense tracker...</h1>
         <Button variant='warning'onClick={(event)=>{event.preventDefault();setShowupdateform();}}>update</Button></div>
         {showupdateform && <div>
@@ -140,6 +151,7 @@ const Home = () => {
           <div><Button variant='success' onClick={(event)=>updatefunction()}>update profile</Button></div>
           </div>}
           <Expenceform/>
+    </div>
     </div>
   )
 }

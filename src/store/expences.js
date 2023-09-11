@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const intialExpense={expensecart:[]};
+const intialExpense={expensecart:[],bgcolor:true};
 const expenseSlice = createSlice({
   name:'expense',
   initialState:intialExpense,
@@ -16,6 +16,9 @@ const expenseSlice = createSlice({
       const index = action.payload;
       state.expensecart.splice(index, 1);
     },
+    setbgcolor:(state)=>{
+      state.bgcolor=!state.bgcolor;
+    }
   }
 });
 export const expenseActions = expenseSlice.actions;
