@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const intialauth={isAuthenticated:false,emailverified:false,islogin:true,authId:'',showupdateform:false};
+const intialauth={isAuthenticated:false,emailverified:false,islogin:true,authId:'',showupdateform:false,displayname:'',photourl:''};
 const authSlice =createSlice({
   name:'auth',
   initialState:intialauth,
@@ -21,6 +21,12 @@ const authSlice =createSlice({
     },
     setshowupdateform(state){
       state.showupdateform=!state.showupdateform;
+    },
+    setdisplayname(state,action){
+      state.displayname=action.payload;
+    },
+    setphotourl(state,action){
+      state.photourl=action.payload;
     }
   }
 })

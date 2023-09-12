@@ -31,10 +31,12 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Emailverify from './pages/Emailverify';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+//import { useSelector } from 'react-redux';
 const App = () => {
   const login = useSelector(state=>state.auth.islogin);
+  const bgcolor=useSelector(state=>state.expense.bgcolor);
   return (
-    <div>
+    <div style={{backgroundColor:bgcolor?'white':'gray'}}>
       <BrowserRouter>
         <Routes>
           <Route path='/' Component={login?Signin:Signup}/>

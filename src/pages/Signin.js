@@ -49,7 +49,7 @@ const Signin = () => {
       <div style={{marginLeft:'0.5cm'}}>
         <label>Password:</label>
         <input ref={passwordref} required type={showpassword?'text':'password'}/>
-        <Button onClick={(event)=>{setShowpassword(!showpassword)}}>{showpassword?<Icon icon={eye}/>:<Icon icon={eyeBlocked}/>}</Button>
+        <Button variant='secondary' onClick={(event)=>{setShowpassword(!showpassword)}}>{showpassword?<Icon icon={eye}/>:<Icon icon={eyeBlocked}/>}</Button>
       </div>
       <div style={{margin:'0.5cm'}}>
         <Button variant='success'onClick={(event)=>{signinhandler()}}>Signin</Button>

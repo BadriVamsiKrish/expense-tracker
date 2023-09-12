@@ -8,13 +8,13 @@ const Emailverify = () => {
   const [emailverifyerror,setEmailverifyerror]=useState(false);
   const history =useNavigate();
   const id=useSelector(state=>state.auth.authId);
-  const isverified=useSelector(state=>state.auth.emailverified);
+  //const isverified=useSelector(state=>state.auth.emailverified);
   const dispatch=useDispatch();
-  const emailverification = () =>{
-    dispatch(authActions.emailverify());
-    console.log(isverified);
+  // const emailverification = () =>{
+  //   dispatch(authActions.emailverify());
+  //   console.log(isverified);
 
-  } 
+  //} 
   const sendmail = () =>{
     axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g',
     {requestType:"VERIFY_EMAIL",idToken:id})
@@ -24,25 +24,39 @@ const Emailverify = () => {
   } ;
   const successfunction = () => {
     history('/home');
-    setTimeout(()=>{emailverification()},1500);
+    //setTimeout(()=>{emailverification()},1500);
   };
   const failurefunction = () =>{
-    setTimeout(()=>{setEmailverifyerror(false)},10000);
-    setEmailverifyerror(true);
+    //setTimeout(()=>{setEmailverifyerror(false)},10000);
+    //setEmailverifyerror(true);
     history('/');
 
-  } 
-  const getdata = () =>{
+  } ;
+  const setname = (a) =>{
+    dispatch(authActions.setdisplayname(a));
+  };
+  const setphoto = (b) =>{
+    dispatch(authActions.setphotourl(b));
+  }  
+  const getdata = async() =>{
     setTimeout(()=>{setEmailverifyerror(false)},5000);
-
-    axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g',{idToken:id})
-     
-    .then((data)=>data.data.users[0].emailVerified)
-    .then((data)=>data?successfunction():failurefunction())
-    .catch((err)=>console.log(err));
-   // {data.data.users[0] && emailverification()}; 
-   //setTimeout(setEmailverifyerror(false),15000);
-
+    try {
+      const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g', { idToken: id });
+      const EmailVerified = response.data.users[0].emailVerified;
+      console.log(EmailVerified,response.data,response.data.users[0].displayName);
+    
+      if (EmailVerified) {
+        successfunction();
+        setname(response.data.users[0].displayName) ;
+        setphoto(response.data.users[0].photoUrl);// Call the success function with the response data
+      } else {
+        failurefunction(); // Call the failure function with the response data
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  
   } 
   return (
     <div>
@@ -55,4 +69,3 @@ const Emailverify = () => {
 }
 
 export default Emailverify;
-// .then((data)=>{console.log(data.data.users[0]);data.data.users[0].emailVerified && (emailverification() && history('/home') ); !data.data.users[0].emailVerified && setEmailverifyerror(true)})

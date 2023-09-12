@@ -4,9 +4,13 @@ import { useSelector ,useDispatch} from 'react-redux';
 import { authActions } from '../store/authstore';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from 'react-icons-kit';
+import {eye} from 'react-icons-kit/icomoon/eye';
+import {eyeBlocked} from 'react-icons-kit/icomoon/eyeBlocked';
 const Signup = () => {
   const getAuthid = (id) =>{
     dispatch(authActions.setAuthid(id));
+    console.log(id);
   } ;
   const history=useNavigate();
   const [email,setEmail]=useState('');
@@ -40,7 +44,7 @@ const Signup = () => {
       <div style={{margin:'0.5cm'}}>
         <label>Password:</label>
         <input value={password} onChange={(event)=>{setPassword(event.target.value)}} required type={showpassword?'text':'password'}></input>
-        <Button onClick={(event)=>{setShowpassword(!showpassword)}}>show</Button>
+        <Button variant='secondary' onClick={(event)=>{setShowpassword(!showpassword)}}>{showpassword?<Icon icon={eye}/>:<Icon icon={eyeBlocked}/>}</Button>
       </div>
       <div style={{margin:'0.5cm'}}>
         <Button variant='success' onClick={(event)=>{signuphandler()}}>Signup</Button>
