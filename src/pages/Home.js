@@ -6,9 +6,11 @@ import axios from 'axios';
 import Expenceform from './Expenceform';
 import { expenseActions } from '../store/expences';
 import { Icon } from 'react-icons-kit';
+//import { authActions } from '../store/authstore';
 import { brightnessContrast } from 'react-icons-kit/icomoon/brightnessContrast';
 
 const Home = () => {
+  
   const nameref = useRef();
   const photoref = useRef();
   const showupdateform = useSelector(state => state.auth.showupdateform);
@@ -47,8 +49,8 @@ const Home = () => {
       )
       .then((response) => {
         console.log(response);
-        setname(response.displayName) ;
-          setphoto(response.data.photoUrl);
+        setname(response.data.displayName) ;
+        setphoto(response.data.photoUrl);
 
       })
       .catch((err) => {
@@ -63,6 +65,9 @@ const Home = () => {
   const settheme = () => {
     dispatch(expenseActions.setBgColor());
   };
+  const logout=()=>{
+    dispatch(authActions.logout());
+  }
   
 
   return (
@@ -70,6 +75,7 @@ const Home = () => {
       <Button variant={bgcolor ? 'secondary' : 'info'} onClick={settheme}>
         <Icon icon={brightnessContrast} />
       </Button>
+      <Button onClick={logout}>Logout</Button>
       <div>
         <h1>Welcome to expense tracker...</h1>
         <Button

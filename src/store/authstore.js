@@ -27,7 +27,17 @@ const authSlice =createSlice({
     },
     setphotourl(state,action){
       state.photourl=action.payload;
-    }
+    },
+    fetchAuthactions(state,action){
+      state.isAuthenticated=action.payload.isAuthenticated;
+      state.emailverified=action.payload.emailverified;
+      state.islogin=action.payload.islogin;
+      state.authId=action.payload.authId;
+      state.showupdateform=action.payload.showupdateform;
+      state.displayname=action.payload.displayname;
+      state.photourl=action.payload.photourl;
+    },
+    
   }
 })
 export const authActions=authSlice.actions;

@@ -6,43 +6,64 @@ import { getexpenses,addexpenses,deleteexpenses,editexpenses} from '../store/exp
 import {bin2} from 'react-icons-kit/icomoon/bin2';
 import {pencil} from 'react-icons-kit/icomoon/pencil'
 import { Icon } from 'react-icons-kit';
-//import Spinner from 'react-bootstrap/Spinner';
-//import { useState } from 'react';
+import exportFromJSON from 'export-from-json';
+//import { csv } from 'export-from-json/exportTypes';
+
+import Spinner from 'react-bootstrap/Spinner';
 const ExpenseForm = () => {
-  //const [data,setData]=useState([]);
-  useEffect(()=>{
-    dispatch(getexpenses());
-  });
-  //console.log(data);
-  const expensecart = useSelector(state => state.expense.expensecart);
-  const total = useSelector(state => state.expense.total);
   const dispatch = useDispatch();
+  const expensecart = useSelector(state => state.expense.expensecart);
+  useEffect(()=>{
+    dispatch(getexpenses())},[dispatch]
+  );
+  //console.log(data);
+  
+  const total = useSelector(state => state.expense.total);
+  const name = useSelector(state => state.auth.displayname);
+  const loading=useSelector(state=>state.expense.isloading);
   const moneyref = useRef();
   const descriptionref = useRef();
   const categoryref = useRef();
+  const downloadfunction = () =>{
+    const dataArray = Object.values(expensecart).map((item) => ({
+      key: item.key,
+      money: item.money,
+      description: item.description,
+      category: item.category,
+    }));
+    const fileName = `expences of ${name}`;
+    const exportType = 'csv';
+    const data=new Array(dataArray);
+    exportFromJSON({ data, fileName, exportType });
+  } 
 
-  const addExpensehandler = () => {
+  const addExpensehandler = async() => {
     //const cartid = Math.random();
-    dispatch(
-      addexpenses({
-        money: moneyref.current.value,
-        description: descriptionref.current.value,
-        category: categoryref.current.value,
-      })
-    );
+    const data={
+      money: moneyref.current.value,
+      description: descriptionref.current.value,
+      category: categoryref.current.value,
+    };
+    await dispatch(addexpenses(data));
+    dispatch(getexpenses());
+    //dispatch(expenseActions.addfunction(data));
+      
     moneyref.current.value = '';
     descriptionref.current.value = '';
     categoryref.current.value = '';
   };
-  const edithandler = (a,b,c,d) =>{
+  const edithandler = async(a,b,c,d) =>{
     const money=prompt('',b);
     const description=prompt('',c);
     const category=prompt('',d);
     const updateddata={key:a,money:money,description:description,category:category};
-    dispatch(editexpenses(updateddata));
+    await dispatch(editexpenses(updateddata));
+    dispatch(getexpenses());
       };
-    const deletehandler = (index) => {
-      dispatch(deleteexpenses(index));
+    const deletehandler = async(index) => {
+      await dispatch(deleteexpenses(index));
+      dispatch(getexpenses());
+      
   
     };
     
@@ -51,7 +72,9 @@ const ExpenseForm = () => {
   return (
     <div>
       <div>
+        {loading && <div><Spinner animation="border" variant="info" /></div>}
         <h2>Expense Form</h2>
+        <Button variant='success' onClick={downloadfunction}>Download</Button>
       <div> 
         {total>10000 && <Button variant='warning'>Get premium</Button>}
       </div> 

@@ -10,11 +10,11 @@ const Emailverify = () => {
   const id=useSelector(state=>state.auth.authId);
   //const isverified=useSelector(state=>state.auth.emailverified);
   const dispatch=useDispatch();
-  // const emailverification = () =>{
-  //   dispatch(authActions.emailverify());
-  //   console.log(isverified);
+  const emailverification = () =>{
+    dispatch(authActions.emailverify());
+    //console.log(isverified);
 
-  //} 
+  } ;
   const sendmail = () =>{
     axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g',
     {requestType:"VERIFY_EMAIL",idToken:id})
@@ -24,6 +24,7 @@ const Emailverify = () => {
   } ;
   const successfunction = () => {
     history('/home');
+    emailverification();
     //setTimeout(()=>{emailverification()},1500);
   };
   const failurefunction = () =>{

@@ -33,7 +33,8 @@ const Signin = () => {
     axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g',
     {email:emailref.current.value,password:passwordref.current.value,returnSecureToken:true},{headers:{'Content-Type': 'application/json',}}
     )
-    .then((data)=>{console.log(data.data);history(isverified?'/home':'/emailverify');getAuthid(data.data.idToken);})
+    .then((data)=>{console.log(data.data);history(isverified?'/home':'/emailverify');getAuthid(data.data.idToken);
+  dispatch(authActions.login())})
     .catch((err)=>{console.log(err);setError(true);});
     emailref.current.value='';
     passwordref.current.value='';

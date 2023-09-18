@@ -3,10 +3,11 @@ import axios from "axios";
 //import { useSelector } from "react-redux";
 
 const initState = {
-  expensecart:new Array([]),
+  expensecart:[],
   bgcolor: true,
   isloading: false,
   total:0,
+  notification:null
 };
 //const expensecart=useSelector(state=>state.expense.expensecart);
 
@@ -52,10 +53,29 @@ const expenseSlice = createSlice({
   name: "expense",
   initialState:initState,
   reducers: {
+    // addfunction(state,action){
+    //   state.expensecart =new Array(state.expensecart).push(action.payload);
+    // },
+    // editfunction: (state, action) => {
+    //   console.log(action.payload);
+    //   state.expensecart.splice(action.payload.updateddata.oldid, 1,action.payload.updateddata);
+
+    // },
+    // deletefunction: (state, action) => {
+    //   const index = action.payload;
+    //   state.expensecart.splice(index, 1);
+    // },
    
     setBgColor: (state) => {
       state.bgcolor = !state.bgcolor;
     },
+    setnotification(state,action){
+      state.notification={
+        status:action.payload.status,
+        message:action.payload.message,
+        title:action.payload.title
+      };
+    }
   },
   extraReducers: (builder) => {
     builder

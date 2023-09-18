@@ -23,7 +23,7 @@ const Signup = () => {
     axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAKqFeOETMUmLT1WIt6gLvnW1aXBuI3J0g',
     {email:email,password:password,returnSecureToken:true},{headers:{'Content-Type': 'application/json',}}
     )
-    .then((data)=>{console.log(data.data);history('/emailverify');getAuthid(data.data.idToken);})
+    .then((data)=>{console.log(data.data);history('/emailverify');getAuthid(data.data.idToken);dispatch(authActions.login());dispatch(authActions.login());})
     .catch((err)=>console.log(err));
     setEmail('');
     setPassword('');
